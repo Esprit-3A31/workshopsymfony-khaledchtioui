@@ -28,7 +28,7 @@
                 <td>{{ f.nb_participants }}</td>
                 <td>
                     {% if f.nb_participants == 0 %}
-                        <a href="{{ path('app_reservation') }}">Participer</a>
+                        <a href="{{ path('app_reservation',{'id':f.ref}) }}">Participer</a>
                     {% else %}
                         complet
                     {% endif%}

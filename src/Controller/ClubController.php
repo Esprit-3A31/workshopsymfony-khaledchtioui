@@ -40,11 +40,11 @@ class ClubController extends AbstractController
         render("club/list.html.twig",
             array("v1"=>$v1,"v2"=>$v2,"listFormation"=>$formations));
     }
-    #[Route('/reservation', name: 'app_reservation')]
-    public function reservationFormation()
+    #[Route('/reservation/{id}', name: 'app_reservation')]
+    public function reservationFormation($id)
     {
         //return new Response("réservation!");
-        return $this->render("club/detail.html.twig");
+        return $this->render("club/detail.html.twig",['nom'=>$id]);
     }
 
 }
