@@ -30,6 +30,22 @@ class ClassroomRepository extends ServiceEntityRepository
         }
     }
 
+    public function sortByNce() {
+        $qb=  $this->createQueryBuilder('x')
+            ->orderBy('x.NbrStudent','ASC');
+        return $qb ->getQuery()
+            ->getResult();
+    }
+
+    public function searchStudent($nce) {
+        $qb=  $this->createQueryBuilder('s')
+            ->where('s.Name LIKE :x')
+            ->setParameter('x',$nce);
+        return $qb->getQuery()
+            ->getResult();
+    }
+
+
     public function remove(Classroom $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
@@ -37,6 +53,14 @@ class ClassroomRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function topClassroom(){
+        $entityManager=$this->getEntityManager();
+        $query=$entityManager
+            ->createQuery("SELECT s FROM APP\Entity\Classroom s 
+            WHERE s.NbrStudent >= 3");
+        return $query->getResult();
     }
 
 //    /**

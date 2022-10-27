@@ -30,6 +30,16 @@ class StudentRepository extends ServiceEntityRepository
         }
     }
 
+    public function getStudentsByClassroom($id)  {
+        $qb= $this->createQueryBuilder('s')
+            ->join('s.classroom','c')
+            ->addSelect('c')
+            ->where('c.id=:id')
+            ->setParameter('id',$id);
+        return $qb->getQuery()
+            ->getResult();
+    }
+
     public function remove(Student $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);

@@ -29,16 +29,37 @@ class ClassroomController extends AbstractController
 
 
     #[Route('/listClassroom', name: 'listClassroom')]
-    public function listClassroom(ClassroomRepository  $repository)
+    public function listClassroom(ClassroomRepository  $repository )
     {
+        $topClassroom= $repository->topClassroom();
+
         $Classroom= $repository->findAll();
-        return $this->render("Classroom/list.html.twig",array("tabClassroom"=>$Classroom));
+        $tabsort=$repository->sortByNce();
+        return $this->render("Classroom/list.html.twig",array("tabClassroom"=>$Classroom
+            ,"tabsort"=>$tabsort,'topClass'=>$topClassroom));
+
+
+
     }
+
+
+    #[Route('/showClassroom/{id}', name: 'showClassroom')]
+    public function showClassroom(StudentRepository $repo,$id,ClassroomRepository $repository)
+    {
+        $classroom = $repository->find($id);
+        $students= $repo->getStudentsByClassroom($id);
+        return $this->render("student/showClassroom.html.twig",array(
+            'showClassroom'=>$classroom,
+            'tabStudent'=>$students
+        ));
+    }
+
     #[Route('/addClassroomForm', name: 'addClassroomForm')]
     public function addClassroomForm(Request  $request,ManagerRegistry $doctrine)
     {
         $Classroom= new  Classroom();
         $form= $this->createForm(ClassroomType::class,$Classroom);
+
         $form->handleRequest($request) ;
         if($form->isSubmitted()){
             $em= $doctrine->getManager();
@@ -73,6 +94,9 @@ class ClassroomController extends AbstractController
         $em->flush();
         return $this->redirectToRoute("addClassroomForm");
     }
+
+
+
 
 
 

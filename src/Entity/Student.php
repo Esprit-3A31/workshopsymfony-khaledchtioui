@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Student
 {
     #[ORM\Id]
+    #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $Ref= null;
 
@@ -24,7 +25,7 @@ class Student
     /**
      * @return int|null
      */
-    public function getRef(): ?int
+    public function getId(): ?int
     {
         return $this->Ref;
     }

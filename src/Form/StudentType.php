@@ -16,7 +16,6 @@ class StudentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Ref')
             ->add('Username')
             ->add('classroom')
             ->add('classroom',EntityType::class,array(

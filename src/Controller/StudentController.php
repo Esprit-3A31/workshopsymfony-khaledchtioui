@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 use App\Repository\ClassroomRepository;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
-
+use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\StudentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,16 +29,19 @@ class StudentController extends AbstractController
         return $this->render("student/student.html.twig",['tab_student'=>$students]);
     }
     #[Route('/addstudent', name: 'app_addstudent')]
-    public function addStudent(Request $request,StudentRepository $repository)
+    public function addStudent(Request $request,StudentRepository $repository,ManagerRegistry $doctrine)
     {
+
+
+
         $student= new Student();
         $form= $this->createForm(StudentType::class,$student);
         $form->handleRequest($request);
         if($form->isSubmitted()){
-           #  $em = $doctrine->getManager();
+           # $em = $doctrine->getManager();
            # $em->persist($student);
            # $em->flush();
-            $repository->add($student,true);
+             $repository->add($student,true);
             return  $this->redirectToRoute("app_addstudent");
         }
 
